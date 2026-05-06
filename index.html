@@ -90,7 +90,7 @@
     /* Full-width background wrapper */
     .hero-wrapper {
       background: var(--banner-bg);
-      transition: background 0s ease;
+      transition: background 0.3s ease;
     }
 
     .hero-left { color: var(--banner-text); }
@@ -253,16 +253,121 @@
       text-decoration: none;
       box-shadow: 0 4px 16px rgba(0,0,0,0.25);
       z-index: 100;
-      transition: transform 0s, filter 0s;
+      transition: transform 0.1s, filter 0.15s;
       border: none;
       cursor: pointer;
     }
     .version-toggle:hover { filter: brightness(1.15); transform: translateY(-1px); }
 
+    /* ── HAMBURGER BUTTON ─────────────────────────────────── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+      margin-left: auto;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .nav-hamburger:hover { background: rgba(255,255,255,0.1); }
+
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+      transform-origin: center;
+    }
+
+    /* Animate to X when open */
+    .nav-hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE DRAWER ────────────────────────────────────── */
+    .mobile-drawer {
+      display: none; /* hidden on desktop */
+      background: var(--nav-bg);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease;
+    }
+
+    .mobile-drawer.is-open {
+      max-height: 400px;
+    }
+
+    .mobile-drawer ul {
+      list-style: none;
+      padding: 8px 0 16px;
+    }
+
+    .mobile-drawer ul li a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: background 0.15s;
+    }
+    .mobile-drawer ul li:last-child a { border-bottom: none; }
+    .mobile-drawer ul li a:hover { background: rgba(255,255,255,0.07); }
+
+    /* Chevron icon on each row */
+    .mobile-drawer ul li a::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid rgba(255,255,255,0.4);
+      border-top: 2px solid rgba(255,255,255,0.4);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    .mobile-drawer .mobile-cta-wrap {
+      padding: 4px 20px 20px;
+    }
+
+    .mobile-drawer .mobile-cta {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: #F95108;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 6px;
+      transition: filter 0.15s;
+    }
+    .mobile-drawer .mobile-cta:hover { filter: brightness(1.1); }
+
     /* ── RESPONSIVE ───────────────────────────────────────── */
     @media (max-width: 768px) {
-      nav { padding: 0 20px; gap: 20px; }
+      nav { padding: 0 20px; gap: 16px; }
       .nav-links { display: none; }
+      .nav-cta   { display: none; }
+      .nav-hamburger { display: flex; }
+      .mobile-drawer { display: block; }
       .hero { grid-template-columns: 1fr; padding: 40px 20px 48px; gap: 32px; }
       .body-placeholder { padding: 0 20px; }
     }
@@ -275,7 +380,21 @@
     <a class="nav-logo" id="nav-logo" href="#">RAC</a>
     <ul class="nav-links" id="nav-links"></ul>
     <a class="nav-links a nav-cta" href="#" id="nav-cta">Get a Quote</a>
+    <!-- Hamburger — mobile only -->
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+    <ul id="mobile-nav-links"></ul>
+    <div class="mobile-cta-wrap">
+      <a href="#" class="mobile-cta">Get a Quote</a>
+    </div>
+  </div>
 
   <!-- HERO BANNER -->
   <div class="hero-wrapper" id="hero-wrapper">
@@ -416,16 +535,26 @@
         logo.textContent = nav.logoText || "RAC";
         logo.style.color = nav.logoColor || "#F95108";
 
-        // Nav links (clear & rebuild)
+        // Nav links (clear & rebuild — desktop + mobile)
         const navList = document.getElementById("nav-links");
+        const mobileNavList = document.getElementById("mobile-nav-links");
         navList.innerHTML = "";
+        mobileNavList.innerHTML = "";
         (nav.navLinks || []).forEach(link => {
+          // Desktop
           const li = document.createElement("li");
           const a  = document.createElement("a");
           a.href = "#";
           a.textContent = link;
           li.appendChild(a);
           navList.appendChild(li);
+          // Mobile drawer (cloned independently)
+          const mLi = document.createElement("li");
+          const mA  = document.createElement("a");
+          mA.href = "#";
+          mA.textContent = link;
+          mLi.appendChild(mA);
+          mobileNavList.appendChild(mLi);
         });
 
         // Headline
@@ -472,6 +601,27 @@
       document.getElementById("version-toggle").addEventListener("click", function () {
         activeVariant = activeVariant === "bau" ? "sale" : "bau";
         render(activeVariant);
+      });
+
+      // ── Hamburger toggle ─────────────────────────────────
+      const hamburger = document.getElementById("nav-hamburger");
+      const drawer    = document.getElementById("mobile-drawer");
+
+      hamburger.addEventListener("click", function () {
+        const isOpen = drawer.classList.toggle("is-open");
+        hamburger.classList.toggle("is-open", isOpen);
+        hamburger.setAttribute("aria-expanded", isOpen);
+        drawer.setAttribute("aria-hidden", !isOpen);
+      });
+
+      // Close drawer when a mobile nav link is tapped
+      drawer.addEventListener("click", function (e) {
+        if (e.target.tagName === "A") {
+          drawer.classList.remove("is-open");
+          hamburger.classList.remove("is-open");
+          hamburger.setAttribute("aria-expanded", "false");
+          drawer.setAttribute("aria-hidden", "true");
+        }
       });
 
       // ── Initial render ───────────────────────────────────
