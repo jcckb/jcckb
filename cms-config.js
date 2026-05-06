@@ -57,7 +57,7 @@ const CMS = {
       ctaLabel:    "Get a Breakdown Quote",
       ctaColor:    "#f95108",       // Button background
       ctaTextColor:"#FFFFFF",       // Button text colour
-      trustLine:   "🔒 Created by Jack Bartram",
+      trustLine:   "🔒 Created by Jack",
     },
   },
 
