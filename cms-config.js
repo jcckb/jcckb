@@ -30,7 +30,7 @@ const CMS = {
     // backgroundGradient: "linear-gradient(135deg, #F95108 0%, #E84E0F 100%)",
 
     // Main headline (supports <br> for line breaks)
-    headline: "Breakdown Cover<br>you can trust",
+    headline: "Breakdown Cover<br>from £1 a month",
 
     // Sub-headline paragraph
     subheadline: "RAC breakdown cover keeps you moving — at home, at the roadside, or using AI.",
