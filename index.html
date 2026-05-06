@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAC Breakdown Cover — Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- ─── cms-config.js is loaded first so CMS object is available ─── -->
+  <script src="cms-config.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --nav-bg:       #1a2b4a;
+      --nav-text:     #ffffff;
+      --banner-bg:    #F95108;
+      --banner-text:  #ffffff;
+      --body-bg:      #f5f5f5;
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--body-bg);
+    }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    nav {
+      background: var(--nav-bg);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      height: 64px;
+      gap: 40px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #F95108;
+      letter-spacing: -1px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--nav-text);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 4px;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover { background: rgba(255,255,255,0.12); }
+
+    .nav-cta {
+      margin-left: auto;
+      background: #F95108;
+      color: #fff !important;
+      padding: 9px 20px !important;
+      border-radius: 6px !important;
+      font-weight: 600 !important;
+      font-size: 0.875rem !important;
+    }
+    .nav-cta:hover { background: #e85f00 !important; }
+
+    /* ── HERO BANNER ─────────────────────────────────────── */
+    .hero {
+      background: var(--banner-bg);
+      padding: 56px 40px 64px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 48px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Full-width background wrapper */
+    .hero-wrapper {
+      background: var(--banner-bg);
+    }
+
+    .hero-left { color: var(--banner-text); }
+
+    .hero-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.5;
+      opacity: 0.92;
+      max-width: 520px;
+      margin-bottom: 20px;
+    }
+
+    /* Trust badge pills */
+    .trust-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Bullet list */
+    .hero-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .hero-bullets li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.975rem;
+      font-weight: 500;
+    }
+
+    .hero-bullets li::before {
+      content: "";
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      /* Tick via background svg */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='white'/%3E%3Cpath d='M5.5 10.5l3 3 6-6' stroke='%23FF6B00' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+
+    /* ── CARD ────────────────────────────────────────────── */
+    .hero-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 36px 32px 32px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #1a2b4a;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .card-subtext {
+      font-size: 0.875rem;
+      color: #555;
+      line-height: 1.45;
+    }
+
+    .card-divider {
+      height: 1px;
+      background: #e8e8e8;
+      margin: 4px 0;
+    }
+
+    .card-cta {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: filter 0.15s, transform 0.1s;
+      text-align: center;
+    }
+    .card-cta:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .card-cta:active { transform: translateY(0); }
+
+    .card-trust {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #888;
+    }
+
+    /* ── BODY PLACEHOLDER ────────────────────────────────── */
+    .body-placeholder {
+      max-width: 1200px;
+      margin: 48px auto;
+      padding: 0 40px;
+    }
+
+    .placeholder-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #bbb;
+      text-align: center;
+      padding: 60px 0;
+      border: 2px dashed #ddd;
+      border-radius: 12px;
+    }
+
+    /* ── VERSION TOGGLE ──────────────────────────────────── */
+    .version-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1a2b4a;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      z-index: 100;
+      transition: transform 0.1s, filter 0.15s;
+    }
+    .version-toggle:hover { filter: brightness(1.15); transform: translateY(-1px); }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; gap: 20px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 40px 20px 48px; gap: 32px; }
+      .body-placeholder { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <a class="nav-logo" id="nav-logo" href="#">RAC</a>
+    <ul class="nav-links" id="nav-links"></ul>
+    <a class="nav-links a nav-cta" href="#" id="nav-cta">Get a Quote</a>
+  </nav>
+
+  <!-- HERO BANNER -->
+  <div class="hero-wrapper" id="hero-wrapper">
+    <section class="hero">
+      <div class="hero-left">
+        <h1 class="hero-headline" id="hero-headline">Breakdown Cover<br>You Can Trust</h1>
+        <p class="hero-sub" id="hero-sub">RAC breakdown cover keeps you moving — at home, at the roadside, or across Europe.</p>
+        <div class="trust-badges" id="trust-badges"></div>
+        <ul class="hero-bullets" id="hero-bullets"></ul>
+      </div>
+      <div class="hero-card">
+        <div class="card-heading" id="card-heading">Get a quote today</div>
+        <p class="card-subtext" id="card-subtext">Join over 3 million RAC members</p>
+        <div class="card-divider"></div>
+        <button class="card-cta" id="card-cta">Get My Quote</button>
+        <p class="card-trust" id="card-trust">🔒 Secure &amp; no obligation</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- BODY AREA PLACEHOLDER -->
+  <div class="body-placeholder">
+    <p class="placeholder-label">Page content area — edit cms-config.js to customise the banner above</p>
+  </div>
+
+  <!-- VERSION TOGGLE BUTTON -->
+  <a href="index-sale.html" class="version-toggle" id="version-toggle">Switch to a 50% SALE</a>
+
+  <!-- ── CMS RENDERER ─────────────────────────────────────── -->
+  <script>
+    (function () {
+      if (typeof CMS === "undefined") {
+        console.error("cms-config.js not loaded. Make sure both files are in the same folder.");
+        return;
+      }
+
+      const { nav, banner, colors } = CMS;
+
+      // ── Apply CSS variables ──────────────────────────────
+      const root = document.documentElement;
+      if (colors) {
+        if (colors.navBg)      root.style.setProperty("--nav-bg",      colors.navBg);
+        if (colors.navText)    root.style.setProperty("--nav-text",    colors.navText);
+        if (colors.bannerText) root.style.setProperty("--banner-text", colors.bannerText);
+        if (colors.bodyBg)     root.style.setProperty("--body-bg",     colors.bodyBg);
+      }
+
+      // ── Banner background ────────────────────────────────
+      const wrapper = document.getElementById("hero-wrapper");
+      if (banner.backgroundGradient && banner.backgroundGradient.trim() !== "") {
+        wrapper.style.background = banner.backgroundGradient;
+      } else if (banner.backgroundColor) {
+        wrapper.style.background = banner.backgroundColor;
+        root.style.setProperty("--banner-bg", banner.backgroundColor);
+      }
+
+      // ── Nav ──────────────────────────────────────────────
+      const logo = document.getElementById("nav-logo");
+      logo.textContent = nav.logoText || "RAC";
+      logo.style.color = nav.logoColor || "#F95108";
+
+      const navList = document.getElementById("nav-links");
+      (nav.navLinks || []).forEach((link, i) => {
+        const li = document.createElement("li");
+        const a  = document.createElement("a");
+        a.href = "#";
+        a.textContent = link;
+        li.appendChild(a);
+        navList.appendChild(li);
+      });
+
+      // ── Headline ─────────────────────────────────────────
+      document.getElementById("hero-headline").innerHTML = banner.headline || "";
+
+      // ── Sub-headline ─────────────────────────────────────
+      document.getElementById("hero-sub").textContent = banner.subheadline || "";
+
+      // ── Trust badges ─────────────────────────────────────
+      const badgesEl = document.getElementById("trust-badges");
+      (banner.trustBadges || []).forEach(text => {
+        const span = document.createElement("span");
+        span.className = "badge";
+        span.textContent = text;
+        badgesEl.appendChild(span);
+      });
+
+      // ── Bullets ──────────────────────────────────────────
+      const bulletsEl = document.getElementById("hero-bullets");
+      (banner.bullets || []).forEach(text => {
+        const li = document.createElement("li");
+        li.textContent = text;
+        bulletsEl.appendChild(li);
+      });
+
+      // ── Card ─────────────────────────────────────────────
+      document.getElementById("card-heading").textContent  = banner.card.heading   || "";
+      document.getElementById("card-subtext").textContent  = banner.card.subtext   || "";
+      document.getElementById("card-trust").textContent    = banner.card.trustLine || "";
+
+      const ctaBtn = document.getElementById("card-cta");
+      ctaBtn.textContent              = banner.card.ctaLabel    || "Get My Quote";
+      ctaBtn.style.backgroundColor    = banner.card.ctaColor    || "#1A2B4A";
+      ctaBtn.style.color              = banner.card.ctaTextColor || "#FFFFFF";
+
+    })();
+  </script>
+
+</body>
+</html>
