@@ -69,5 +69,15 @@ const CMS = {
     bannerText:  "#FFFFFF",   // All hero banner text colour
     bodyBg:      "#F5F5F5",   // Main page background colour
   },
+document.getElementById('cta-button').addEventListener('click', function() {
+    let stylesheet = document.getElementById('theme-stylesheet');
+    
+    // Check current stylesheet and switch
+    if (stylesheet.getAttribute('href') === 'light-theme.css') {
+        stylesheet.setAttribute('href', 'dark-theme.css');
+    } else {
+        stylesheet.setAttribute('href', 'light-theme.css');
+    }
+});
 
 };
