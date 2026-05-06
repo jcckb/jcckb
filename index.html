@@ -219,10 +219,154 @@
       color: #888;
     }
 
+    /* ── PACKAGES SECTION ────────────────────────────────── */
+    .packages-section {
+      max-width: 1200px;
+      margin: 52px auto 0;
+      padding: 0 40px 60px;
+    }
+
+    .packages-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: #1a2b4a;
+      text-transform: uppercase;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+
+    .packages-sub {
+      font-size: 0.925rem;
+      color: #666;
+      margin-bottom: 28px;
+    }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    }
+
+    /* ── Individual package card ─── */
+    .pkg-card {
+      background: #fff;
+      border: 1px solid #e2e2e2;
+      border-left: none;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s;
+    }
+    .pkg-card:first-child { border-left: 1px solid #e2e2e2; border-radius: 10px 0 0 10px; }
+    .pkg-card:last-child  { border-radius: 0 10px 10px 0; }
+
+    /* Header strip */
+    .pkg-header {
+      background: var(--accent, #f95108);
+      padding: 14px 20px 12px;
+      transition: background 0.3s ease;
+    }
+
+    .pkg-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    /* Feature list */
+    .pkg-features {
+      list-style: none;
+      flex: 1;
+      padding: 6px 0 20px;
+    }
+
+    .pkg-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #2a2a2a;
+      border-bottom: 1px solid #f0f0f0;
+      position: relative;
+    }
+    .pkg-features li:last-child { border-bottom: none; }
+
+    /* Included tick */
+    .pkg-features li.included::before {
+      content: "";
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M3 9.5l4 4 8-8' stroke='%23f95108' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    /* Excluded cross */
+    .pkg-features li.excluded {
+      color: #bbb;
+    }
+    .pkg-features li.excluded::before {
+      content: "";
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 5l8 8M13 5l-8 8' stroke='%23ccc' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    /* Optional upgrade chevron */
+    .pkg-features li .upgrade-chevron {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
+    .pkg-features li .upgrade-chevron svg {
+      width: 14px;
+      height: 14px;
+      stroke: #aaa;
+    }
+
+    /* CTA at bottom of card */
+    .pkg-footer {
+      padding: 0 20px 20px;
+    }
+
+    .pkg-cta {
+      display: block;
+      width: 100%;
+      padding: 12px 8px;
+      background: var(--accent, #f95108);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: filter 0.15s, transform 0.1s, background 0.3s ease;
+      text-align: center;
+    }
+    .pkg-cta:hover  { filter: brightness(1.1); transform: translateY(-1px); }
+    .pkg-cta:active { transform: translateY(0); }
+
     /* ── BODY PLACEHOLDER ────────────────────────────────── */
     .body-placeholder {
       max-width: 1200px;
-      margin: 48px auto;
+      margin: 0 auto 48px;
       padding: 0 40px;
     }
 
@@ -236,6 +380,27 @@
       padding: 60px 0;
       border: 2px dashed #ddd;
       border-radius: 12px;
+    }
+
+    /* ── PACKAGES RESPONSIVE ─────────────────────────────── */
+    @media (max-width: 900px) {
+      .packages-grid {
+        grid-template-columns: repeat(2, 1fr);
+        border-radius: 10px;
+      }
+      .pkg-card { border-left: 1px solid #e2e2e2; border-radius: 0; }
+      .pkg-card:nth-child(1) { border-radius: 10px 0 0 0; }
+      .pkg-card:nth-child(2) { border-radius: 0 10px 0 0; }
+      .pkg-card:nth-child(3) { border-radius: 0 0 0 10px; border-top: none; }
+      .pkg-card:nth-child(4) { border-radius: 0 0 10px 0; border-top: none; }
+    }
+
+    @media (max-width: 520px) {
+      .packages-section { padding: 0 20px 48px; }
+      .packages-grid { grid-template-columns: 1fr; border-radius: 10px; }
+      .pkg-card { border-left: 1px solid #e2e2e2 !important; border-top: none; border-radius: 0 !important; }
+      .pkg-card:first-child { border-top: 1px solid #e2e2e2 !important; border-radius: 10px 10px 0 0 !important; }
+      .pkg-card:last-child  { border-radius: 0 0 10px 10px !important; }
     }
 
     /* ── VERSION TOGGLE ──────────────────────────────────── */
@@ -415,6 +580,15 @@
     </section>
   </div>
 
+  <!-- PACKAGES SECTION -->
+  <div class="packages-section" id="packages-section">
+    <h2 class="packages-heading">Choose your level of cover</h2>
+    <p class="packages-sub">All packages include 24/7 assistance. Upgrade anytime.</p>
+    <div class="packages-grid" id="packages-grid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
   <!-- BODY AREA PLACEHOLDER -->
   <div class="body-placeholder">
     <p class="placeholder-label">Page content area — edit cms-config.js to customise the banner above</p>
@@ -467,6 +641,7 @@
             navText:    "#FFFFFF",
             bannerText: "#FFFFFF",
             bodyBg:     "#F5F5F5",
+            accentColor: "#f95108",
           },
         },
 
@@ -501,9 +676,129 @@
             navText:    "#FFFFFF",
             bannerText: "#FFFFFF",
             bodyBg:     "#F5F5F5",
+            accentColor: "#e6231f",
           },
         },
       };
+
+      // ── Packages data (shared across both variants) ──────
+      const packages = [
+        {
+          name: "Basic",
+          features: [
+            { label: "5 callouts",              included: true  },
+            { label: "24/7 Roadside Assistance", included: true,  bold: true },
+            { label: "EV cover",                included: true  },
+            { label: "National Recovery",       included: false },
+            { label: "Home Cover",              included: false },
+            { label: "Hire car",                included: false },
+            { label: "Legal expenses",          included: false },
+          ],
+        },
+        {
+          name: "Standard",
+          features: [
+            { label: "5 callouts",              included: true  },
+            { label: "24/7 Roadside Assistance", included: true,  bold: true },
+            { label: "EV cover",                included: true  },
+            { label: "National Recovery",       included: true,  upgrade: true },
+            { label: "Home Cover",              included: false },
+            { label: "Hire car",                included: false },
+            { label: "Legal expenses",          included: false },
+          ],
+        },
+        {
+          name: "Extra",
+          features: [
+            { label: "Unlimited callouts",      included: true  },
+            { label: "24/7 Roadside Assistance", included: true,  bold: true },
+            { label: "EV cover",                included: true  },
+            { label: "National Recovery",       included: true,  upgrade: true },
+            { label: "Home Cover",              included: true  },
+            { label: "Hire car",                included: false },
+            { label: "Legal expenses",          included: false },
+          ],
+        },
+        {
+          name: "Complete",
+          features: [
+            { label: "Unlimited callouts",      included: true  },
+            { label: "24/7 Roadside Assistance", included: true,  bold: true },
+            { label: "EV cover",                included: true  },
+            { label: "National Recovery",       included: true,  upgrade: true },
+            { label: "Home Cover",              included: true  },
+            { label: "Hire car",                included: true  },
+            { label: "Legal expenses",          included: true  },
+          ],
+        },
+      ];
+
+      // Chevron SVG for upgrade items
+      const chevronSVG = `<span class="upgrade-chevron"><svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 3l4 4-4 4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+
+      // ── Render packages ───────────────────────────────────
+      function renderPackages(accentColor) {
+        const grid = document.getElementById("packages-grid");
+        grid.innerHTML = "";
+
+        // Update the CSS variable used by .pkg-header and .pkg-cta
+        document.documentElement.style.setProperty("--accent", accentColor);
+
+        // Recolour tick marks dynamically (encoded in SVG data-uri)
+        const encodedColor = accentColor.replace("#", "%23");
+        const tickSVG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M3 9.5l4 4 8-8' stroke='${encodedColor}' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`;
+
+        // Inject a scoped style for tick colour
+        let tickStyle = document.getElementById("tick-style");
+        if (!tickStyle) {
+          tickStyle = document.createElement("style");
+          tickStyle.id = "tick-style";
+          document.head.appendChild(tickStyle);
+        }
+        tickStyle.textContent = `.pkg-features li.included::before { background-image: ${tickSVG}; }`;
+
+        packages.forEach(pkg => {
+          const card = document.createElement("div");
+          card.className = "pkg-card";
+
+          // Header
+          const header = document.createElement("div");
+          header.className = "pkg-header";
+          header.style.background = accentColor;
+          const name = document.createElement("div");
+          name.className = "pkg-name";
+          name.textContent = pkg.name;
+          header.appendChild(name);
+          card.appendChild(header);
+
+          // Feature list
+          const ul = document.createElement("ul");
+          ul.className = "pkg-features";
+          pkg.features.forEach(f => {
+            const li = document.createElement("li");
+            li.className = f.included ? "included" : "excluded";
+            const labelSpan = document.createElement("span");
+            labelSpan.textContent = f.label;
+            if (f.bold) labelSpan.style.fontWeight = "600";
+            li.appendChild(labelSpan);
+            if (f.included && f.upgrade) li.insertAdjacentHTML("beforeend", chevronSVG);
+            ul.appendChild(li);
+          });
+          card.appendChild(ul);
+
+          // Footer CTA
+          const footer = document.createElement("div");
+          footer.className = "pkg-footer";
+          const cta = document.createElement("button");
+          cta.className = "pkg-cta";
+          cta.style.background = accentColor;
+          cta.textContent = `Get ${pkg.name}`;
+          footer.appendChild(cta);
+          card.appendChild(footer);
+
+          grid.appendChild(card);
+        });
+      }
 
       // ── State ────────────────────────────────────────────
       let activeVariant = "bau";
@@ -595,6 +890,10 @@
         // Toggle button label
         const toggleBtn = document.getElementById("version-toggle");
         toggleBtn.textContent = variantKey === "bau" ? "Switch to SALE" : "Switch to BAU";
+
+        // Packages accent colour
+        const accent = (colors && colors.accentColor) ? colors.accentColor : "#f95108";
+        renderPackages(accent);
       }
 
       // ── Toggle handler ───────────────────────────────────
