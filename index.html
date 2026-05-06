@@ -8,9 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
 
-  <!-- ─── cms-config.js is loaded first so CMS object is available ─── -->
-  <script src="cms-config.js"></script>
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -93,6 +90,7 @@
     /* Full-width background wrapper */
     .hero-wrapper {
       background: var(--banner-bg);
+      transition: background 0.3s ease;
     }
 
     .hero-left { color: var(--banner-text); }
@@ -161,7 +159,6 @@
       flex-shrink: 0;
       display: grid;
       place-items: center;
-      /* Tick via background svg */
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10' fill='white'/%3E%3Cpath d='M5.5 10.5l3 3 6-6' stroke='%23FF6B00' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-size: cover;
     }
@@ -257,6 +254,8 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.25);
       z-index: 100;
       transition: transform 0.1s, filter 0.15s;
+      border: none;
+      cursor: pointer;
     }
     .version-toggle:hover { filter: brightness(1.15); transform: translateY(-1px); }
 
@@ -282,17 +281,17 @@
   <div class="hero-wrapper" id="hero-wrapper">
     <section class="hero">
       <div class="hero-left">
-        <h1 class="hero-headline" id="hero-headline">Breakdown Cover<br>from £1 a month</h1>
-        <p class="hero-sub" id="hero-sub">RAC breakdown cover keeps you moving — at home, at the roadside, or across Europe.</p>
+        <h1 class="hero-headline" id="hero-headline"></h1>
+        <p class="hero-sub" id="hero-sub"></p>
         <div class="trust-badges" id="trust-badges"></div>
         <ul class="hero-bullets" id="hero-bullets"></ul>
       </div>
       <div class="hero-card">
-        <div class="card-heading" id="card-heading">Get a quote today</div>
-        <p class="card-subtext" id="card-subtext">Join over 3 million RAC members</p>
+        <div class="card-heading" id="card-heading"></div>
+        <p class="card-subtext" id="card-subtext"></p>
         <div class="card-divider"></div>
-        <button class="card-cta" id="card-cta">Get My Quote</button>
-        <p class="card-trust" id="card-trust">🔒 Secure &amp; no obligation</p>
+        <button class="card-cta" id="card-cta"></button>
+        <p class="card-trust" id="card-trust"></p>
       </div>
     </section>
   </div>
@@ -303,83 +302,180 @@
   </div>
 
   <!-- VERSION TOGGLE BUTTON -->
-  <a href="index-sale.html" class="version-toggle" id="version-toggle">Switch to SALE</a>
+  <button class="version-toggle" id="version-toggle">Switch to SALE</button>
+
+  <!-- ── CMS CONFIGS ──────────────────────────────────────── -->
+  <script src="cms-config.js"></script>
+  <script src="cms-config-v2.js" id="cms-v2-script"></script>
 
   <!-- ── CMS RENDERER ─────────────────────────────────────── -->
   <script>
     (function () {
-      if (typeof CMS === "undefined") {
-        console.error("cms-config.js not loaded. Make sure both files are in the same folder.");
-        return;
+
+      // ── Config definitions ───────────────────────────────
+      // Both configs are defined inline so we can swap without
+      // re-fetching scripts. They mirror cms-config.js and
+      // cms-config-v2.js exactly.
+      const configs = {
+        bau: {
+          nav: {
+            logoText:  "RAC",
+            logoColor: "#F95108",
+            navLinks:  ["Breakdown Cover", "Car Insurance", "SMR", "Route Planner"],
+          },
+          banner: {
+            backgroundColor: "#F95108",
+            headline:        "Breakdown Cover<br>from £1 a month",
+            subheadline:     "RAC breakdown cover keeps you moving — at home, at the roadside, or using AI.",
+            trustBadges:     ["No. 1 provider", "Fix 4/5", "60 mins or less"],
+            bullets: [
+              "Roadside assistance across the UK",
+              "Variety of addons available",
+              "European Breakdown Cover available",
+              "Flexible monthly payments",
+            ],
+            card: {
+              heading:      "Get breakdown cover today",
+              subtext:      "Join over 15 million RAC members for CPoM",
+              ctaLabel:     "Get a Breakdown Quote",
+              ctaColor:     "#f95108",
+              ctaTextColor: "#FFFFFF",
+              trustLine:    "🔒 Created by Jack",
+            },
+          },
+          colors: {
+            navBg:      "#1A2B4A",
+            navText:    "#FFFFFF",
+            bannerText: "#FFFFFF",
+            bodyBg:     "#F5F5F5",
+          },
+        },
+
+        sale: {
+          nav: {
+            logoText:  "RAC",
+            logoColor: "#f95108",
+            navLinks:  ["Breakdown Cover", "Car Insurance", "SMR", "Route Planner"],
+          },
+          banner: {
+            backgroundColor: "#e6231f",
+            headline:        "50% off<br>Breakdown Cover",
+            subheadline:     "RAC breakdown cover keeps you moving — at home, at the roadside, or using AI.",
+            trustBadges:     ["No. 1 provider", "Fix 4/5", "60 mins or less"],
+            bullets: [
+              "Roadside assistance across the UK",
+              "Variety of addons available",
+              "European Breakdown Cover available",
+              "Flexible monthly payments",
+            ],
+            card: {
+              heading:      "Get breakdown cover today",
+              subtext:      "Join over 15 million RAC members for CPoM",
+              ctaLabel:     "Get a Breakdown Quote",
+              ctaColor:     "#e6231f",
+              ctaTextColor: "#FFFFFF",
+              trustLine:    "🔒 Created by Jack",
+            },
+          },
+          colors: {
+            navBg:      "#1A2B4A",
+            navText:    "#FFFFFF",
+            bannerText: "#FFFFFF",
+            bodyBg:     "#F5F5F5",
+          },
+        },
+      };
+
+      // ── State ────────────────────────────────────────────
+      let activeVariant = "bau";
+
+      // ── Renderer ─────────────────────────────────────────
+      function render(variantKey) {
+        const { nav, banner, colors } = configs[variantKey];
+        const root = document.documentElement;
+
+        // CSS variables
+        if (colors) {
+          if (colors.navBg)      root.style.setProperty("--nav-bg",      colors.navBg);
+          if (colors.navText)    root.style.setProperty("--nav-text",    colors.navText);
+          if (colors.bannerText) root.style.setProperty("--banner-text", colors.bannerText);
+          if (colors.bodyBg)     root.style.setProperty("--body-bg",     colors.bodyBg);
+        }
+
+        // Banner background
+        const wrapper = document.getElementById("hero-wrapper");
+        if (banner.backgroundGradient && banner.backgroundGradient.trim() !== "") {
+          wrapper.style.background = banner.backgroundGradient;
+        } else if (banner.backgroundColor) {
+          wrapper.style.background = banner.backgroundColor;
+          root.style.setProperty("--banner-bg", banner.backgroundColor);
+        }
+
+        // Nav logo
+        const logo = document.getElementById("nav-logo");
+        logo.textContent = nav.logoText || "RAC";
+        logo.style.color = nav.logoColor || "#F95108";
+
+        // Nav links (clear & rebuild)
+        const navList = document.getElementById("nav-links");
+        navList.innerHTML = "";
+        (nav.navLinks || []).forEach(link => {
+          const li = document.createElement("li");
+          const a  = document.createElement("a");
+          a.href = "#";
+          a.textContent = link;
+          li.appendChild(a);
+          navList.appendChild(li);
+        });
+
+        // Headline
+        document.getElementById("hero-headline").innerHTML = banner.headline || "";
+
+        // Sub-headline
+        document.getElementById("hero-sub").textContent = banner.subheadline || "";
+
+        // Trust badges (clear & rebuild)
+        const badgesEl = document.getElementById("trust-badges");
+        badgesEl.innerHTML = "";
+        (banner.trustBadges || []).forEach(text => {
+          const span = document.createElement("span");
+          span.className = "badge";
+          span.textContent = text;
+          badgesEl.appendChild(span);
+        });
+
+        // Bullets (clear & rebuild)
+        const bulletsEl = document.getElementById("hero-bullets");
+        bulletsEl.innerHTML = "";
+        (banner.bullets || []).forEach(text => {
+          const li = document.createElement("li");
+          li.textContent = text;
+          bulletsEl.appendChild(li);
+        });
+
+        // Card
+        document.getElementById("card-heading").textContent = banner.card.heading   || "";
+        document.getElementById("card-subtext").textContent = banner.card.subtext   || "";
+        document.getElementById("card-trust").textContent   = banner.card.trustLine || "";
+
+        const ctaBtn = document.getElementById("card-cta");
+        ctaBtn.textContent           = banner.card.ctaLabel    || "Get My Quote";
+        ctaBtn.style.backgroundColor = banner.card.ctaColor    || "#1A2B4A";
+        ctaBtn.style.color           = banner.card.ctaTextColor || "#FFFFFF";
+
+        // Toggle button label
+        const toggleBtn = document.getElementById("version-toggle");
+        toggleBtn.textContent = variantKey === "bau" ? "Switch to SALE" : "Switch to BAU";
       }
 
-      const { nav, banner, colors } = CMS;
-
-      // ── Apply CSS variables ──────────────────────────────
-      const root = document.documentElement;
-      if (colors) {
-        if (colors.navBg)      root.style.setProperty("--nav-bg",      colors.navBg);
-        if (colors.navText)    root.style.setProperty("--nav-text",    colors.navText);
-        if (colors.bannerText) root.style.setProperty("--banner-text", colors.bannerText);
-        if (colors.bodyBg)     root.style.setProperty("--body-bg",     colors.bodyBg);
-      }
-
-      // ── Banner background ────────────────────────────────
-      const wrapper = document.getElementById("hero-wrapper");
-      if (banner.backgroundGradient && banner.backgroundGradient.trim() !== "") {
-        wrapper.style.background = banner.backgroundGradient;
-      } else if (banner.backgroundColor) {
-        wrapper.style.background = banner.backgroundColor;
-        root.style.setProperty("--banner-bg", banner.backgroundColor);
-      }
-
-      // ── Nav ──────────────────────────────────────────────
-      const logo = document.getElementById("nav-logo");
-      logo.textContent = nav.logoText || "RAC";
-      logo.style.color = nav.logoColor || "#F95108";
-
-      const navList = document.getElementById("nav-links");
-      (nav.navLinks || []).forEach((link, i) => {
-        const li = document.createElement("li");
-        const a  = document.createElement("a");
-        a.href = "#";
-        a.textContent = link;
-        li.appendChild(a);
-        navList.appendChild(li);
+      // ── Toggle handler ───────────────────────────────────
+      document.getElementById("version-toggle").addEventListener("click", function () {
+        activeVariant = activeVariant === "bau" ? "sale" : "bau";
+        render(activeVariant);
       });
 
-      // ── Headline ─────────────────────────────────────────
-      document.getElementById("hero-headline").innerHTML = banner.headline || "";
-
-      // ── Sub-headline ─────────────────────────────────────
-      document.getElementById("hero-sub").textContent = banner.subheadline || "";
-
-      // ── Trust badges ─────────────────────────────────────
-      const badgesEl = document.getElementById("trust-badges");
-      (banner.trustBadges || []).forEach(text => {
-        const span = document.createElement("span");
-        span.className = "badge";
-        span.textContent = text;
-        badgesEl.appendChild(span);
-      });
-
-      // ── Bullets ──────────────────────────────────────────
-      const bulletsEl = document.getElementById("hero-bullets");
-      (banner.bullets || []).forEach(text => {
-        const li = document.createElement("li");
-        li.textContent = text;
-        bulletsEl.appendChild(li);
-      });
-
-      // ── Card ─────────────────────────────────────────────
-      document.getElementById("card-heading").textContent  = banner.card.heading   || "";
-      document.getElementById("card-subtext").textContent  = banner.card.subtext   || "";
-      document.getElementById("card-trust").textContent    = banner.card.trustLine || "";
-
-      const ctaBtn = document.getElementById("card-cta");
-      ctaBtn.textContent              = banner.card.ctaLabel    || "Get My Quote";
-      ctaBtn.style.backgroundColor    = banner.card.ctaColor    || "#1A2B4A";
-      ctaBtn.style.color              = banner.card.ctaTextColor || "#FFFFFF";
+      // ── Initial render ───────────────────────────────────
+      render(activeVariant);
 
     })();
   </script>
